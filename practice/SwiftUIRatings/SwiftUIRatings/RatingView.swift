@@ -8,13 +8,36 @@
 import SwiftUI
 
 struct RatingView: View {
+    
+    // ContentView의 @State 값을 받아옴
+    @Binding var rating: Int?
+    
+    private func starType(index: Int) -> String {
+        
+        if let rating = self.rating {
+            return index <= rating ? "star.fill" : "star"
+        } else {
+            return "star"
+        }
+        
+    }
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            ForEach(1...5, id: \.self) { index in
+                Image(systemName: starType(index: index))
+                    .foregroundColor(Color.orange)
+                    .onTapGesture {
+                        self.rating = index
+                    }
+            }
+        }
     }
 }
 
 struct RatingView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingView()
+        RatingView(rating: .constant(3))
     }
 }
